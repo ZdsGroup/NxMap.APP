@@ -1,4 +1,5 @@
-﻿using Map.NxApp.Common.VO;
+﻿using Map.NxApp.Common.Model;
+using Map.NxApp.Common.VO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,6 +36,7 @@ namespace Map.NxApp.Common.Core
             return sysModelLocator;
         }
 
+
         #region 系统全局模型实例
         /// <summary>
         /// 图层列表
@@ -42,10 +44,9 @@ namespace Map.NxApp.Common.Core
         public ObservableCollection<LayerVO> LayerList = new ObservableCollection<LayerVO>();
 
         /// <summary>
-        /// 查询结果列表
+        /// 图层分组字典表（图层一级节点）
         /// </summary>
-        public ObservableCollection<QueryRecordVO> recordList = new ObservableCollection<QueryRecordVO>();
-
+        public Dictionary<string, TreeModel> LayerGroupDics = new Dictionary<string, TreeModel>();
         #endregion
     }
 }

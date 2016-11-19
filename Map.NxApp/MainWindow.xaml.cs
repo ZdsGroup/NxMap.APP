@@ -1,7 +1,9 @@
 ﻿using Map.NxApp.Common.Core;
 using Map.NxApp.Common.Helpers.Themes;
 using Map.NxApp.Common.Helpers.Windows;
+using Map.NxApp.Common.VO;
 using SuperMap.Data;
+using SuperMap.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -139,6 +141,36 @@ namespace Map.NxApp
             if (isOpened)
             {
                 SmObjectLocator.getInstance().MapObject.Map.Open(mapName);
+                Layers ls = SmObjectLocator.getInstance().MapObject.Map.Layers;
+                if (ls != null && ls.Count > 0)
+                {
+                    for (int i = 0; i < ls.Count; i++)
+                    {
+                        Layer layer = ls[i];
+                        layer.IsSelectable = false;
+                        layer.IsEditable = false;
+                        layer.IsSnapable = false;
+                        LayerVO layerVo = new LayerVO();
+                        layerVo.LayerBounds = layer.Bounds;
+                        layerVo.LayerCenter = layer.Bounds.Center;
+                        layerVo.LayerName = layer.Name.Substring(0, layer.Name.IndexOf("@"));
+                        string tempParentName = layer.Name.Substring(layer.Name.IndexOf("@") + 1);
+                        if (tempParentName.IndexOf("#")>-1)
+                        {
+                            layerVo.ParentGroupName = tempParentName.Substring(0, tempParentName.IndexOf("#")) ;
+                        }
+                        else
+                        {
+                            layerVo.ParentGroupName = tempParentName;
+                        }
+                        layerVo.LayerId = i.ToString();
+                        layerVo.LayerVisible = layer.IsVisible;
+                        layerVo.IsQueryLayer = true;
+                        layerVo.LayerCaption = layer.Caption;
+                        layerVo.LayerOrigin = layer.Name;
+                        SysModelLocator.getInstance().LayerList.Add(layerVo);
+                    }
+                }
             }
         }
 

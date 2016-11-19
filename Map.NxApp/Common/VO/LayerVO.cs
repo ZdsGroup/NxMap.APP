@@ -1,9 +1,4 @@
 ﻿using SuperMap.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Map.NxApp.Common.VO
 {
@@ -92,16 +87,6 @@ namespace Map.NxApp.Common.VO
             set { isQueryLayer = value; }
         }
 
-        private FieldVO[] fields;
-        /// <summary>
-        /// 字段数组
-        /// </summary>
-        internal FieldVO[] Fields
-        {
-            get { return fields; }
-            set { fields = value; }
-        }
-
 		private string layerCaption;
 		/// <summary>
 		/// 图层标题
@@ -111,6 +96,25 @@ namespace Map.NxApp.Common.VO
 			get { return layerCaption; }
 			set { layerCaption = value; }
 		}
+        private string parentGroupName;
+
+        /// <summary>
+        /// 图层父分组名称
+        /// </summary>
+        public string ParentGroupName
+        {
+            get
+            {
+                return parentGroupName;
+            }
+
+            set
+            {
+                parentGroupName = value;
+            }
+        }
+
+        
               
     }
 }

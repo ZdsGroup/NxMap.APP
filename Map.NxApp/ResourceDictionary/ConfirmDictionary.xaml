@@ -10,7 +10,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="FontFamily" Value="Microsoft YaHei UI Light"/>
+        <Setter Property="FontFamily" Value="{StaticResource CommonFontFamily}"/>
         <Setter Property="Margin" Value="{StaticResource ResourceKey=Padding10}"/>
     </Style>
     

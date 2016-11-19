@@ -114,6 +114,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Ucs\CheckBoxTreeView.xaml.cs">
+      <DependentUpon>CheckBoxTreeView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,6 +131,8 @@
     <Compile Include="Common\Helpers\Themes\Extensions.cs" />
     <Compile Include="Common\Helpers\Themes\ResourceToStreamHelper.cs" />
     <Compile Include="Common\Helpers\Windows\WindowsHelper.cs" />
+    <Compile Include="Common\Model\TreeModel.cs" />
+    <Compile Include="Common\Utils\AppConfigHelper.cs" />
     <Compile Include="Common\VO\DetailVO.cs" />
     <Compile Include="Common\VO\FieldVO.cs" />
     <Compile Include="Common\VO\LayerVO.cs" />
@@ -151,6 +156,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResourceDictionary\ToolBarDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\CheckBoxTreeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -216,6 +225,14 @@
     <Resource Include="Images\warn.png" />
     <Resource Include="Images\user.png" />
     <Resource Include="Images\manager.png" />
+    <Resource Include="Images\tree\layer.png" />
+    <Resource Include="Images\tree\layergroup.png" />
+    <Resource Include="Images\tree\delete.png" />
+    <Resource Include="Images\tree\emoticon_smile.png" />
+    <Resource Include="Images\tree\folder_close_arrow.png" />
+    <Resource Include="Images\tree\folder_go.png" />
+    <Resource Include="Images\tree\folder_open_arrow.png" />
+    <Resource Include="Images\tree\tick.png" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.Data.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.GridView.dll" />
@@ -226,7 +243,6 @@
     <Content Include="libs\telerik\Telerik.Windows.Themes.Windows8Touch.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\Utils\" />
     <Folder Include="Images\featureimages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
