@@ -126,6 +126,25 @@ namespace Map.NxApp
         {
             SmObjectLocator.getInstance().MapObject.Action = SuperMap.UI.Action.Pan;
             this.hostMapControl.Child = SmObjectLocator.getInstance().MapObject;
+
+            SmObjectLocator.getInstance().MapObject.MouseClick += MapObject_MouseClick;
+        }
+
+        /// <summary>
+        /// 禁用鼠标右键选择功能
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MapObject_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                SmObjectLocator.getInstance().MapObject.Action = SuperMap.UI.Action.Pan;
+            }
+            else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                SmObjectLocator.getInstance().MapObject.Action = SuperMap.UI.Action.Pan;
+            }
         }
 
         /// <summary>

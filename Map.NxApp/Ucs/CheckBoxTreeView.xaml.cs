@@ -139,6 +139,40 @@ namespace Map.NxApp.Ucs
         }
 
         /// <summary>
+        /// 取消所有子项菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuUnSelectAllChild_Click(object sender, RoutedEventArgs e)
+        {
+            if (checkboxTreeId.SelectedItem != null)
+            {
+                TreeModel tree = (TreeModel)checkboxTreeId.SelectedItem;
+                tree.IsChecked = false;
+                tree.SetChildrenChecked(false);
+
+                this.controlMapLayer(tree);
+            }
+        }
+
+        /// <summary>
+        /// 定位图层
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void locationMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (checkboxTreeId.SelectedItem != null)
+            {
+                TreeModel tree = (TreeModel)checkboxTreeId.SelectedItem;
+                if (tree.IsChecked && tree.Parent != null)
+                {
+                    this.locatorMapLayer(tree);
+                }
+            }
+        }
+
+        /// <summary>
         /// 全部展开菜单事件
         /// </summary>
         /// <param name="sender"></param>
@@ -285,6 +319,30 @@ namespace Map.NxApp.Ucs
                 this.controlMapLayer(c);
             }
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// 定位到指定图层
+        /// </summary>
+        /// <param name="treeModel"></param>
+        private void locatorMapLayer(TreeModel treeModel)
+        {
+            if (treeModel != null)
+            {
+                Layers ls = SmObjectLocator.getInstance().MapObject.Map.Layers;
+                if (ls != null && ls.Count > 0)
+                {
+                    foreach (Layer layer in ls)
+                    {
+                        if (layer.Caption == treeModel.LayerVo.LayerCaption)
+                        {
+                            SmObjectLocator.getInstance().MapObject.Map.EnsureVisible(layer);
+                            SmObjectLocator.getInstance().MapObject.Map.Refresh();
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

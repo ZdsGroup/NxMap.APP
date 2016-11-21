@@ -233,6 +233,12 @@
     <Resource Include="Images\tree\folder_go.png" />
     <Resource Include="Images\tree\folder_open_arrow.png" />
     <Resource Include="Images\tree\tick.png" />
+    <Resource Include="Images\tree\location.png" />
+    <Resource Include="Images\query.png" />
+    <Resource Include="Images\lc.png" />
+    <Resource Include="Images\mc.png" />
+    <Resource Include="Images\qc.png" />
+    <Resource Include="Images\uc.png" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.Data.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.GridView.dll" />

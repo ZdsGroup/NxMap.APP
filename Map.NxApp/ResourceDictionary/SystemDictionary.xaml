@@ -24,7 +24,11 @@
         </Style.Triggers>
     </Style>-->
 
-    <Thickness x:Key="MarginValue">0</Thickness>
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource ResourceKey=CommonFontFamily}"/>
+    </Style>
+
+    <Thickness x:Key="MarginValue">3</Thickness>
     <Style x:Key="StackPanelStyle" TargetType="StackPanel">
         <Style.Setters>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -39,8 +43,8 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="{StaticResource ResourceKey=MarginValue}"/>
             <Setter Property="FontFamily" Value="{StaticResource CommonFontFamily}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <!--<Setter Property="Foreground" Value="Black"/>-->
             <Setter Property="Margin" Value="10,0,0,0"/>
             <!--左,上,右,下-->
         </Style.Setters>
@@ -70,15 +74,26 @@
 
     <!--ListBox相关样式和模板,飞行路径-->
     <DataTemplate x:Key="QueryListItemTemplate">
-        <Border Name="itemBg" HorizontalAlignment="Stretch" BorderThickness="0,0,0,1">
+        <!--<Border Name="itemBg" HorizontalAlignment="Stretch" BorderThickness="0,0,0,1" Margin="3">
             <Border.BorderBrush>
-                <SolidColorBrush Color="#FFEC6D51"/>
+                <SolidColorBrush Color="#FF25A0DA"/>
             </Border.BorderBrush>
             <StackPanel Style="{StaticResource ResourceKey=StackPanelStyle}">
-                <Image Source="/Map.NxApp;component/Images/point.png" Width="32" Height="32" Stretch="UniformToFill" />
-                <TextBlock Text="{Binding RecordName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
+                <Image Source="/Map.NxApp;component/Images/point.png" Width="16" Height="16" Stretch="UniformToFill" />
+                <TextBlock Text="{Binding LayerName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
             </StackPanel>
-        </Border>
+        </Border>-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Style="{StaticResource ResourceKey=StackPanelStyle}" Cursor="Hand">
+                <Image Source="/Map.NxApp;component/Images/point.png" Width="16" Height="16" Stretch="UniformToFill" />
+                <TextBlock Text="{Binding LayerName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
+            </StackPanel>
+            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" StrokeDashArray="5" Stroke="#FF25A0DA" StrokeThickness="1"/>
+        </Grid>
     </DataTemplate>
 
     <SolidColorBrush x:Key="DataGridLineColor" Color="#FFEC6D51"></SolidColorBrush>

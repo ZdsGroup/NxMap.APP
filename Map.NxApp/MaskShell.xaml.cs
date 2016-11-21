@@ -24,6 +24,7 @@ namespace Map.NxApp
 			InitializeComponent();
 
             this.LayerTreeViewId.MaxHeight = SystemParameters.WorkArea.Height-150;
+            this.FeatureQueryPanelId.MaxHeight = SystemParameters.WorkArea.Height - 150;
 
             //Mask窗口Loaded事件
             this.Loaded += MaskShell_Loaded;
@@ -49,6 +50,14 @@ namespace Map.NxApp
             ObservableCollection<LayerVO> ls = SysModelLocator.getInstance().LayerList;
             if (ls != null && ls.Count > 0)
             {
+                //设置要素查询类型
+                this.featureTypeListId.ItemsSource = ls;
+                this.QueryResultListBoxId.ItemsSource = ls;
+                //if (this.featureTypeListId.Items.Count > 0)
+                //{
+                //    this.featureTypeListId.SelectedIndex = 0;
+                //}
+
                 ObservableCollection<TreeModel> treeModelCol = new ObservableCollection<TreeModel>();
                 for (int i = 0; i < ls.Count; i++)
                 {
