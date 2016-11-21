@@ -73,7 +73,8 @@
                        VerticalAlignment="Center" FontFamily="{StaticResource CommonFontFamily}"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1" Margin="5">
-                <Image Name="queryFeatureCenterID" Source="Images/query.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="要素查询"/>
+                <Image Name="queryFeatureCenterID" Source="Images/query.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="要素查询"
+                       MouseLeftButtonDown="queryFeatureCenterID_MouseLeftButtonDown"/>
                 <Image Name="LayerManagerCenterID" Source="Images/layer.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="图层管理"
                        MouseLeftButtonDown="LayerManagerCenterID_MouseLeftButtonDown"/>
                 <Image Name="SystemCenterID" Source="Images/manager.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="系统管理"
@@ -173,7 +174,7 @@
                 </Border>
             </StackPanel>
             <!--要素查询-->
-            <StackPanel Name="QueryFeaturePanelID" Visibility="Visible" Width="300" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,15,0">
+            <StackPanel Name="QueryFeaturePanelID" Visibility="Collapsed" Width="300" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,15,0">
                 <Border Height="30" Background="#CC3C82FF" BorderThickness="1,1,1,0" BorderBrush="#FF25A0DA">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -185,7 +186,8 @@
                                Cursor="Hand" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1" Text="要素查询" TextAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="White"/>
                         <Image Name="CloseFeatureQueryPanelID" Grid.Column="2" Source="Images/close.png" Stretch="UniformToFill" 
-                               Cursor="Hand" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                               Cursor="Hand" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               MouseLeftButtonUp="CloseFeatureQueryPanelID_MouseLeftButtonUp"/>
                     </Grid>
                 </Border>
                 <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#CCFFFFFF" BorderThickness="1,0,1,1" BorderBrush="#FF25A0DA">

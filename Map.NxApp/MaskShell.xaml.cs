@@ -200,5 +200,25 @@ namespace Map.NxApp
         {
             this.LayerManagerPanelID.Visibility = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// 关闭要素查询中心
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseFeatureQueryPanelID_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.QueryFeaturePanelID.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 显示要素查询中心
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void queryFeatureCenterID_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.QueryFeaturePanelID.Visibility = Visibility.Visible;
+        }
     }
 }
