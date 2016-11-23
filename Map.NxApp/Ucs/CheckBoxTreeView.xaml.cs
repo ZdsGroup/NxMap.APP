@@ -386,6 +386,16 @@ namespace Map.NxApp.Ucs
                     if (layer.Caption == treeModel.LayerVo.LayerCaption)
                     {
                         layer.IsVisible = isVisible;
+                        //关联节点图层的显隐控制
+                        IList<TreeModel> linkedNodes = treeModel.LinkItems;
+                        if (linkedNodes != null && linkedNodes.Count > 0)
+                        {
+                            foreach (TreeModel item in linkedNodes)
+                            {
+                                Layer linkedLayer = SmObjectLocator.getInstance().MapObject.Map.Layers[item.LayerVo.LayerOrigin];
+                                linkedLayer.IsVisible = isVisible;
+                            }
+                        }
                         break;
                     }
                 }

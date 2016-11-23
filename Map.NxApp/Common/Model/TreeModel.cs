@@ -36,6 +36,10 @@ namespace Map.NxApp.Common.Model
         /// 父项
         /// </summary>
         private TreeModel _parent;
+        /// <summary>
+        /// 关联项目，不在图层中显示
+        /// </summary>
+        private IList<TreeModel> _linkItems;
         #endregion
 
         /// <summary>
@@ -44,6 +48,7 @@ namespace Map.NxApp.Common.Model
         public TreeModel()
         {
             Children = new List<TreeModel>();
+            LinkItems = new List<TreeModel>();
             _isChecked = false;
             IsExpanded = false;
             _icon = "/Map.NxApp;component/Images/tree/layergroup.png";
@@ -252,6 +257,22 @@ namespace Map.NxApp.Common.Model
             set
             {
                 layerVo = value;
+            }
+        }
+
+        /// <summary>
+        /// 节点关联节点列表，与子节点无关
+        /// </summary>
+        public IList<TreeModel> LinkItems
+        {
+            get
+            {
+                return _linkItems;
+            }
+
+            set
+            {
+                _linkItems = value;
             }
         }
     }

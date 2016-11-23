@@ -13,26 +13,26 @@ namespace Map.NxApp
     /// MaskWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MaskShell : Window
-	{
+    {
         /// 系统标题Key
         /// </summary>
         private string systemTitle = "SystemTitle";
 
 
         public MaskShell()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
 
-            this.LayerTreeViewId.MaxHeight = SystemParameters.WorkArea.Height-150;
+            this.LayerTreeViewId.MaxHeight = SystemParameters.WorkArea.Height - 150;
             this.FeatureQueryPanelId.MaxHeight = SystemParameters.WorkArea.Height - 150;
 
             //Mask窗口Loaded事件
             this.Loaded += MaskShell_Loaded;
-		}
+        }
 
-		//Mask窗口的Loaded事件
-		private void MaskShell_Loaded(object sender, RoutedEventArgs e)
-		{
+        //Mask窗口的Loaded事件
+        private void MaskShell_Loaded(object sender, RoutedEventArgs e)
+        {
             //系统名称
             this.SystemTitleId.Text = ConfigurationManager.AppSettings.Get(systemTitle);
 
@@ -58,6 +58,7 @@ namespace Map.NxApp
                 //    this.featureTypeListId.SelectedIndex = 0;
                 //}
 
+                //创建图层树
                 ObservableCollection<TreeModel> treeModelCol = new ObservableCollection<TreeModel>();
                 for (int i = 0; i < ls.Count; i++)
                 {
@@ -65,33 +66,83 @@ namespace Map.NxApp
                     string tempParentName = lvo.ParentGroupName;
                     TreeModel parentNode = null;
                     TreeModel childNode = null;
-                    if (!SysModelLocator.getInstance().LayerGroupDics.ContainsKey(tempParentName))
-                    {
-                        //创建一级节点
-                        parentNode = new TreeModel();
-                        parentNode.Name = lvo.ParentGroupName;
-                        parentNode.IsExpanded = true;
-                        //parentNode.IsChecked = true;
-                        SysModelLocator.getInstance().LayerGroupDics.Add(lvo.ParentGroupName, parentNode);
 
-                        //添加到图层模型对象
-                        treeModelCol.Add(parentNode);
-                    }
-                    else
+                    //如果包含#则为待关联图层，不在图层树中显示,此处排除关联节点
+                    if (lvo.LayerCaption.IndexOf("#") == -1)
                     {
-                        //查找一级节点
-                        parentNode = SysModelLocator.getInstance().LayerGroupDics[tempParentName];
+                        if (!SysModelLocator.getInstance().LayerGroupDics.ContainsKey(tempParentName))
+                        {
+                            //创建一级节点
+                            parentNode = new TreeModel();
+                            parentNode.Name = lvo.ParentGroupName;
+                            parentNode.IsExpanded = true;
+                            //parentNode.IsChecked = true;
+                            SysModelLocator.getInstance().LayerGroupDics.Add(lvo.ParentGroupName, parentNode);
+
+                            //添加到图层模型对象
+                            treeModelCol.Add(parentNode);
+                        }
+                        else
+                        {
+                            //查找一级节点
+                            parentNode = SysModelLocator.getInstance().LayerGroupDics[tempParentName];
+                        }
+
+                        //创建二级节点
+                        childNode = new TreeModel();
+                        childNode.LayerVo = lvo;
+                        childNode.Name = lvo.LayerName;
+                        childNode.Id = lvo.LayerId;
+                        childNode.IsChecked = lvo.LayerVisible;
+                        childNode.Icon = "/Map.NxApp;component/Images/tree/layer.png";
+                        childNode.Parent = parentNode;
+                        parentNode.Children.Add(childNode);
+                    }
+                }
+
+                //创建关联节点
+                for (int j = 0; j < ls.Count; j++)
+                {
+                    LayerVO lvo = ls[j];
+                    TreeModel linkParent = null;
+                    TreeModel linkChild = null;
+                    //如果包含#则为待关联图层，不在图层树中显示
+                    if (lvo.LayerCaption.IndexOf("#") > -1)
+                    {
+                        //创建关联节点
+                        linkChild = new TreeModel();
+                        linkChild.LayerVo = lvo;
+                        //作为关联节点，此处不能用处理过的LayerName，必须用完整的图层名。
+                        linkChild.Name = lvo.LayerOrigin;
+                        linkChild.Id = lvo.LayerId;
                     }
 
-                    //创建二级节点
-                    childNode = new TreeModel();
-                    childNode.LayerVo = lvo;
-                    childNode.Name = lvo.LayerName;
-                    childNode.Id = lvo.LayerId;
-                    childNode.IsChecked = lvo.LayerVisible;
-                    childNode.Icon = "/Map.NxApp;component/Images/tree/layer.png";
-                    childNode.Parent = parentNode;
-                    parentNode.Children.Add(childNode);
+                    //查找二级节点作为关联节点的父节点
+                    foreach (string key in SysModelLocator.getInstance().LayerGroupDics.Keys)
+                    {
+                        TreeModel firstNode = SysModelLocator.getInstance().LayerGroupDics[key];
+                        IList<TreeModel> secondNodeList = firstNode.Children;
+                        if (secondNodeList != null && secondNodeList.Count > 0)
+                        {
+                            foreach (TreeModel item in secondNodeList)
+                            {
+                                if (lvo.LayerCaption.IndexOf(item.LayerVo.LayerCaption) > -1 && item.LayerVo.LayerCaption.IndexOf("#") == -1)
+                                {
+                                    linkParent = item;
+                                    break;
+                                }
+                            }
+                            if (linkParent != null)
+                                break;
+                        }
+                    }
+
+                    //排除空节点
+                    if (linkParent != null && linkChild != null)
+                    {
+                        //追加到二级节点的关联节点列表中
+                        linkParent.LinkItems.Add(linkChild);
+                    }
                 }
                 this.LayerTreeViewId.ItemsSourceData = treeModelCol;
             }
@@ -110,7 +161,7 @@ namespace Map.NxApp
         /// 切换登录面板，默认未登录-false，已登录-true
         /// </summary>
         /// <param name="isLogined"></param>
-        private void switchLoginPanel(bool isLogined=false)
+        private void switchLoginPanel(bool isLogined = false)
         {
             if (isLogined)
             {

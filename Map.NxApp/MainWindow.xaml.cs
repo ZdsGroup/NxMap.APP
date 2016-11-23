@@ -172,8 +172,8 @@ namespace Map.NxApp
                         LayerVO layerVo = new LayerVO();
                         layerVo.LayerBounds = layer.Bounds;
                         layerVo.LayerCenter = layer.Bounds.Center;
-                        layerVo.LayerName = layer.Name.Substring(0, layer.Name.IndexOf("@"));
-                        string tempParentName = layer.Name.Substring(layer.Name.IndexOf("@") + 1);
+                        layerVo.LayerName = layer.Caption.Substring(0, layer.Caption.IndexOf("@"));
+                        string tempParentName = layer.Caption.Substring(layer.Caption.IndexOf("@") + 1);
                         if (tempParentName.IndexOf("#")>-1)
                         {
                             layerVo.ParentGroupName = tempParentName.Substring(0, tempParentName.IndexOf("#")) ;
