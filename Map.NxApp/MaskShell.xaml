@@ -77,8 +77,8 @@
                        MouseLeftButtonDown="queryFeatureCenterID_MouseLeftButtonDown"/>
                 <Image Name="LayerManagerCenterID" Source="Images/layer.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="图层管理"
                        MouseLeftButtonDown="LayerManagerCenterID_MouseLeftButtonDown"/>
-                <Image Name="SystemCenterID" Source="Images/manager.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="系统管理"
-                       MouseLeftButtonDown="SystemCenterID_MouseLeftButtonDown"/>
+                <Image Name="ClearSystemID" Source="Images/clear.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="重置地图"
+                       MouseLeftButtonDown="ClearSystemID_MouseLeftButtonDown"/>
                 <Image Name="UserCenterID" Source="Images/user.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="用户中心"
                        MouseLeftButtonDown="UserCenterID_MouseLeftButtonDown"/>
             </StackPanel>
@@ -195,7 +195,9 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Name="featureListFactor" Height="*"/>
+                            <RowDefinition Name="featureDetailFactor" Height="0"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -204,17 +206,31 @@
                         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,3">
                             <TextBlock Text="要素类型：" VerticalAlignment="Center"/>
                             <telerik:RadComboBox Name="featureTypeListId" HorizontalAlignment="Stretch" 
-                                                 DisplayMemberPath="LayerName" SelectedValuePath="LayerOrigin" Width="164"/>
+                                                 DisplayMemberPath="LayerName" SelectedValuePath="ParentGroupName" Width="164"
+                                                 SelectionChanged="featureTypeListId_SelectionChanged"/>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="0,3">
                             <TextBlock Text="要素名称：" VerticalAlignment="Center"></TextBlock>
-                            <TextBox HorizontalAlignment="Stretch" Width="164"/>
+                            <TextBox Name="keywordId" HorizontalAlignment="Stretch" Width="164"/>
                         </StackPanel>
-                        <Button Content="查询" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Height="48" Width="48" Cursor="Hand" Background="#CCFFFFFF"/>
-                        <telerik:RadListBox Name="QueryResultListBoxId" Grid.Row="2" Grid.ColumnSpan="2" 
+                        <Button Name="executeQueryBtnId" Content="查询" Grid.Row="0"
+                                Grid.Column="1" Grid.RowSpan="2" Height="48" Width="48"
+                                Cursor="Hand" Background="#CCFFFFFF" Click="executeQueryBtnId_Click"/>
+                        <TextBlock Name="queryInfoId" Text="默认查询选定类型的全部要素"  Grid.Row="2" Grid.ColumnSpan="2" 
+                                   VerticalAlignment="Center" Margin="0,3" Foreground="Red"/>
+                        <telerik:RadListBox Name="QueryResultListBoxId" Grid.Row="3" Grid.ColumnSpan="2" 
                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" 
                                             HorizontalAlignment="Stretch" BorderThickness="0"
-                                            ItemTemplate="{StaticResource QueryListItemTemplate}"/>
+                                            ItemTemplate="{StaticResource QueryListItemTemplate}"
+                                            SelectionChanged="QueryResultListBoxId_SelectionChanged"/>
+                        <StackPanel Name="featureDetailPanelId" HorizontalAlignment="Center" Orientation="Vertical" Grid.Row="4" Grid.ColumnSpan="2" >
+                            <TextBlock Name="featureTitle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" Margin="3"
+                                       FontWeight="Bold" FontSize="14" Foreground="Blue"/>
+                            <telerik:RadListBox Name="featureDetailId"
+                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" 
+                                            HorizontalAlignment="Stretch" BorderThickness="0"
+                                            ItemTemplate="{StaticResource FeatureDetailListItemTemplate}"/>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </StackPanel>

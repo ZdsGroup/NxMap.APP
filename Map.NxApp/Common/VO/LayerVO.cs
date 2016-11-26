@@ -77,7 +77,7 @@ namespace Map.NxApp.Common.VO
             set { layerCenter = value; }
         }
 
-        private bool isQueryLayer;
+        private bool isQueryLayer=false;
         /// <summary>
         /// 是否是查询图层
         /// </summary>

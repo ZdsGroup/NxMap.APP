@@ -64,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -239,6 +240,8 @@
     <Resource Include="Images\mc.png" />
     <Resource Include="Images\qc.png" />
     <Resource Include="Images\uc.png" />
+    <Resource Include="Images\clear.png" />
+    <Resource Include="Images\maplayer.png" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.Data.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.dll" />
     <Content Include="libs\telerik\Telerik.Windows.Controls.GridView.dll" />

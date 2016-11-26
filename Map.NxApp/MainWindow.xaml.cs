@@ -7,18 +7,7 @@ using SuperMap.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Map.NxApp
 {
@@ -38,6 +27,34 @@ namespace Map.NxApp
         //地图名称
         private string mapNameKey = "mapName";
 
+        /// <summary>
+        /// 保存过滤之后的要素类型
+        /// </summary>
+        public Dictionary<string, string> FeatureTypeDics = new Dictionary<string, string>();
+        /// <summary>
+        /// 过滤要素类型
+        /// </summary>
+        private void initFeatureType()
+        {
+            string[] fts = {"土地利用类型",
+                            "居民点",
+                            "功能分区",
+                            "旅游景点设施",
+                            "环境监测信息数据",
+                            "基础设施空间数据",
+                            "样地分布数据",
+                            "植被分布",
+                            "保护区植物普查",
+                            "动物样点分布",
+                            "管理站管辖区",
+                            "主要道路" };
+            foreach (string item in fts)
+            {
+                this.FeatureTypeDics.Add(item, item);
+            }
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,6 +72,8 @@ namespace Map.NxApp
         {
             //默认加载的系统主题
             ApplicationThemeManager.GetInstance().EnsureResourcesForTheme(ApplicationThemeManager.DefaultThemeName);
+
+            this.initFeatureType();
 
             //初始化地图窗口
             this.initMapObject();
@@ -174,17 +193,26 @@ namespace Map.NxApp
                         layerVo.LayerCenter = layer.Bounds.Center;
                         layerVo.LayerName = layer.Caption.Substring(0, layer.Caption.IndexOf("@"));
                         string tempParentName = layer.Caption.Substring(layer.Caption.IndexOf("@") + 1);
-                        if (tempParentName.IndexOf("#")>-1)
+                        if (tempParentName.IndexOf("#") > -1)
                         {
-                            layerVo.ParentGroupName = tempParentName.Substring(0, tempParentName.IndexOf("#")) ;
+                            layerVo.ParentGroupName = tempParentName.Substring(0, tempParentName.IndexOf("#"));
+                            layerVo.IsQueryLayer = false;
                         }
                         else
                         {
                             layerVo.ParentGroupName = tempParentName;
+                            //去掉不参与查询的要素
+                            if (this.FeatureTypeDics.ContainsValue(layerVo.LayerName))
+                            {
+                                layerVo.IsQueryLayer = true;
+                            }
+                            else
+                            {
+                                layerVo.IsQueryLayer = false;
+                            }
                         }
                         layerVo.LayerId = i.ToString();
                         layerVo.LayerVisible = layer.IsVisible;
-                        layerVo.IsQueryLayer = true;
                         layerVo.LayerCaption = layer.Caption;
                         layerVo.LayerOrigin = layer.Name;
                         SysModelLocator.getInstance().LayerList.Add(layerVo);

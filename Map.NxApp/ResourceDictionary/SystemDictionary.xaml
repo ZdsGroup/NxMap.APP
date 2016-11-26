@@ -73,16 +73,7 @@
     </DataTemplate>
 
     <!--ListBox相关样式和模板,飞行路径-->
-    <DataTemplate x:Key="QueryListItemTemplate">
-        <!--<Border Name="itemBg" HorizontalAlignment="Stretch" BorderThickness="0,0,0,1" Margin="3">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="#FF25A0DA"/>
-            </Border.BorderBrush>
-            <StackPanel Style="{StaticResource ResourceKey=StackPanelStyle}">
-                <Image Source="/Map.NxApp;component/Images/point.png" Width="16" Height="16" Stretch="UniformToFill" />
-                <TextBlock Text="{Binding LayerName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
-            </StackPanel>
-        </Border>-->
+    <DataTemplate x:Key="QueryListItemTemplate" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -90,11 +81,32 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Style="{StaticResource ResourceKey=StackPanelStyle}" Cursor="Hand">
                 <Image Source="/Map.NxApp;component/Images/point.png" Width="16" Height="16" Stretch="UniformToFill" />
-                <TextBlock Text="{Binding LayerName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
+                <TextBlock Text="{Binding RecordName}" ToolTip="{Binding RecordName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
             </StackPanel>
-            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" StrokeDashArray="5" Stroke="#FF25A0DA" StrokeThickness="1"/>
+            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" StrokeDashArray="2" Stroke="#FF25A0DA" StrokeThickness="1"/>
         </Grid>
     </DataTemplate>
 
-    <SolidColorBrush x:Key="DataGridLineColor" Color="#FFEC6D51"></SolidColorBrush>
+    <!--ListBox相关样式和模板,飞行路径-->
+    <DataTemplate x:Key="FeatureDetailListItemTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FeatureField}" ToolTip="{Binding FeatureField}" 
+                       Style="{StaticResource ResourceKey=ListBoxItemTextStyle}" Margin="2" Cursor="Hand"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text=">" Foreground="Red"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FeatureValue}" ToolTip="{Binding FeatureValue}" 
+                       Style="{StaticResource ResourceKey=ListBoxItemTextStyle}" Margin="2" Cursor="Hand"/>
+            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" Grid.ColumnSpan="3" StrokeDashArray="2" Stroke="#FF25A0DA" StrokeThickness="1"/>
+        </Grid>
+    </DataTemplate>
+
+    <SolidColorBrush x:Key="DataGridLineColor" Color="#FFEC6D51" ></SolidColorBrush>
 </ResourceDictionary>

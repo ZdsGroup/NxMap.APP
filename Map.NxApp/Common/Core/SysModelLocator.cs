@@ -47,6 +47,11 @@ namespace Map.NxApp.Common.Core
         /// 图层分组字典表（图层一级节点）
         /// </summary>
         public Dictionary<string, TreeModel> LayerGroupDics = new Dictionary<string, TreeModel>();
+
+        /// <summary>
+        /// 查询结果列表
+        /// </summary>
+        public ObservableCollection<QueryRecordVO> recordList = new ObservableCollection<QueryRecordVO>();
         #endregion
     }
 }
