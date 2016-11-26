@@ -83,7 +83,7 @@
                 <Image Source="/Map.NxApp;component/Images/point.png" Width="16" Height="16" Stretch="UniformToFill" />
                 <TextBlock Text="{Binding RecordName}" ToolTip="{Binding RecordName}"  Style="{StaticResource ResourceKey=ListBoxItemTextStyle}"/>
             </StackPanel>
-            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" StrokeDashArray="2" Stroke="#FF25A0DA" StrokeThickness="1"/>
+            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" StrokeDashArray="1" Stroke="#FF25A0DA" StrokeThickness="2" Margin="0,2"/>
         </Grid>
     </DataTemplate>
 
@@ -104,7 +104,7 @@
             <TextBlock Grid.Row="0" Grid.Column="1" Text=">" Foreground="Red"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FeatureValue}" ToolTip="{Binding FeatureValue}" 
                        Style="{StaticResource ResourceKey=ListBoxItemTextStyle}" Margin="2" Cursor="Hand"/>
-            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" Grid.ColumnSpan="3" StrokeDashArray="2" Stroke="#FF25A0DA" StrokeThickness="1"/>
+            <Line X1="5" Y1="0" X2="395" Y2="0" Grid.Row="1" Grid.ColumnSpan="3" StrokeDashArray="1" Stroke="#FF25A0DA" StrokeThickness="2"  Margin="0,2"/>
         </Grid>
     </DataTemplate>
 
