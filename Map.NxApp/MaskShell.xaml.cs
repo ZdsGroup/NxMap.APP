@@ -33,6 +33,14 @@ namespace Map.NxApp
 		/// 追踪图层中属性或空间查询图标 tag 后缀
 		/// </summary>
 		private const string QUERY = "Query";
+        private string[] orderByArray = {"行政区空间数据集",
+                                        "交通路线空间数据集",
+                                        "土地资源空间数据集",
+                                        "功能区划空间数据集",
+                                        "地形空间数据集",
+                                        "基础设施空间数据集",
+                                        "野生植物空间数据集",
+                                        "野生动物空间数据集"};
 
 
         #region 图标高亮相关变量
@@ -199,7 +207,8 @@ namespace Map.NxApp
             {
                 //创建图层树
                 ObservableCollection<TreeModel> treeModelCol = new ObservableCollection<TreeModel>();
-                for (int i = 0; i < ls.Count; i++)
+                ObservableCollection<TreeModel> sortedTreeModelCol = new ObservableCollection<TreeModel>();
+                for (int i = 0; i < ls.Count; i++)  
                 {
                     LayerVO lvo = ls[i];
                     string tempParentName = lvo.ParentGroupName;
@@ -283,7 +292,21 @@ namespace Map.NxApp
                         linkParent.LinkItems.Add(linkChild);
                     }
                 }
-                this.LayerTreeViewId.ItemsSourceData = treeModelCol;
+
+                //先根据人为规则排序
+                for (int i = 0; i < this.orderByArray.Length; i++)
+                {
+                    foreach (TreeModel item in treeModelCol)
+                    {
+                        if (item.Name==orderByArray[i].ToString())
+                        {
+                            sortedTreeModelCol.Add(item);
+                            break;//跳出内嵌循环，不影响外围循环。
+                        }
+                    }
+                }
+                //绑定排序之后的数组
+                this.LayerTreeViewId.ItemsSourceData = sortedTreeModelCol;
             }
         }
 
