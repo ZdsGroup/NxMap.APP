@@ -115,6 +115,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\VO\UserVO.cs" />
     <Compile Include="Ucs\CheckBoxTreeView.xaml.cs">
       <DependentUpon>CheckBoxTreeView.xaml</DependentUpon>
     </Compile>

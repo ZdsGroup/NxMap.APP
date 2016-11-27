@@ -73,6 +73,8 @@ namespace Map.NxApp
             //默认加载的系统主题
             ApplicationThemeManager.GetInstance().EnsureResourcesForTheme(ApplicationThemeManager.DefaultThemeName);
 
+            SysModelLocator.getInstance().initSystemUser();
+
             this.initFeatureType();
 
             //初始化地图窗口

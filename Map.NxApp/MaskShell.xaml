@@ -15,53 +15,54 @@
         Background="{x:Null}"
         WindowStyle="None"
         WindowStartupLocation="CenterOwner">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ResourceDictionary/ToolBarDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <Style x:Key="LayerListBoxItemStyle" TargetType="{x:Type CheckBox}">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="{StaticResource ResourceKey=MarginValue}"/>
-                <Setter Property="FontFamily" Value="{StaticResource CommonFontFamily}"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="Foreground" Value="Black"/>
-                <Setter Property="Margin" Value="10,0,0,0"/>
-            </Style>
-
-            <!--ListBox相关样式和模板,图层管理-->
-            <DataTemplate x:Key="LayerListBoxItemTemplate">
-                <Border x:Name="itemBg" HorizontalAlignment="Stretch" BorderThickness="0,0,0,1" BorderBrush="#FFEC6D51">
-                    <StackPanel Grid.Row="0" Style="{StaticResource ResourceKey=StackPanelStyle}">
-                        <Image Source="/Map.NxApp;component/Images/layer.png" Width="32" Height="32" Stretch="UniformToFill" />
-                        <CheckBox Content="{Binding LayerCaption}" IsChecked="{Binding LayerVisible}" Tag="{Binding LayerOrigin}" Style="{StaticResource ResourceKey=LayerListBoxItemStyle}"/>
-                    </StackPanel>
-                </Border>
-            </DataTemplate>
-
-            <!--RadTileView相关样式和模板-->
-            <DataTemplate x:Key="headerTemplate">
-                <TextBlock Text="{Binding Id}" />
-            </DataTemplate>
-
-            <DataTemplate x:Key="imageContentTemplate">
-                <Image Source="{Binding ImageUrl}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="videoContentTemplate">
-                <MediaElement Source="{Binding VideoUrl}"/>
-            </DataTemplate>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-
+        <!--用户登录面板-->
+        <Border Name="LoginPoupuPanelId" Background="#FFFFFFFF" Grid.Row="0" Grid.RowSpan="3" Panel.ZIndex="100">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="#FF25A0DA" BorderThickness="1">
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel  Grid.Row="1" Grid.ColumnSpan="4"  Margin="10"
+                                 VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" >
+                        <Image Source="Images/logo.ico" Stretch="UniformToFill"/>
+                        <TextBlock x:Name="LoginTitleId" FontSize="36" FontWeight="Bold" Foreground="Black"  
+                               FontFamily="{StaticResource CommonFontFamily}" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <TextBlock Text="用  户：" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center" Margin="10"/>
+                    <TextBox Name="userNameId"  Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Background="#CCFFFFFF" Height="30" Margin="10"/>
+                    <TextBlock Text="密  码："  Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center" Margin="10"/>
+                    <PasswordBox Name="userPwdId" PasswordChar="*" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Background="#CCFFFFFF" Height="30" Margin="10"/>
+                    <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Button Name="ExitSysBtn" Content="退出系统" BorderThickness="1" Margin="10" Cursor="Hand"
+                                Background="#CCFFFFFF"  Foreground="Red" Width="80" Height="30"
+                                Click="CloseSysBtn_Click"/>
+                        <Button Name="LogInBtn" Content="登  录" BorderThickness="1" Margin="10" Cursor="Hand" Background="#CCFFFFFF" Width="80" Height="30" IsDefault="True"
+                                    Click="LogInBtn_Click"/>
+                    </StackPanel>
+                    <TextBlock Name="loginTipInfoId" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Border>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -73,7 +74,7 @@
                        VerticalAlignment="Center" FontFamily="{StaticResource CommonFontFamily}"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1" Margin="5">
-                <Image Name="queryFeatureCenterID" Source="Images/query.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="要素查询"
+                <Image Name="queryFeatureCenterID" Source="Images/query.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="要素查询" Visibility="Collapsed"
                        MouseLeftButtonDown="queryFeatureCenterID_MouseLeftButtonDown"/>
                 <Image Name="LayerManagerCenterID" Source="Images/layer.png" Stretch="UniformToFill" Cursor="Hand" Margin="5" ToolTip="图层管理"
                        MouseLeftButtonDown="LayerManagerCenterID_MouseLeftButtonDown"/>
@@ -104,11 +105,10 @@
                 <Border Height="120" Background="#CCFFFFFF" BorderThickness="1,0,1,1" BorderBrush="#FF25A0DA">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Name="LogInPanelFactor" Height="*"/>
-                            <RowDefinition Name="LogInedPanelFactor" Height="Auto"/>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <Grid Name="LogInPanelID" Grid.Row="0" Margin="5,0,0,0">
+                        <Grid Grid.Row="0" Margin="5,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -120,35 +120,15 @@
                                 <ColumnDefinition Width="60"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="用  户：" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Background="#CCFFFFFF"/>
-                            <TextBlock Text="密  码："  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <PasswordBox PasswordChar="*" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" Background="#CCFFFFFF"/>
-                            <Button Name="LogInBtn" Content="登  录" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1" Margin="5" Cursor="Hand" Background="#CCFFFFFF"
-                                    Click="LogInBtn_Click"/>
-                            <TextBlock Text="登录时间：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <TextBlock Text="2016-11-16" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
-                        </Grid>
-                        <Grid Name="LogInedPanelID" Grid.Row="1" Visibility="Collapsed" Margin="5,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="60"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="用  户：" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBlock Text="张三" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Name="userNameInfoId" Text="张三" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <TextBlock Text="角  色："  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8,0,0"/>
-                            <TextBlock Text="系统管理员"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Name="userRoleInfoId" Text="系统管理员"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <Button Name="LogOutBtn" Content="注  销" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1" Margin="5" Cursor="Hand" Background="#CCFFFFFF"
                                     Click="LogOutBtn_Click"/>
                             <TextBlock Text="登录时间：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <TextBlock Text="2016-11-16" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                            <TextBlock Name="loginDateInfoId" Text="2016-11-16" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                         </Grid>
-                        <Button Name="CloseSysBtn" Content="退出系统" Foreground="Red" Grid.Row="3" VerticalAlignment="Bottom" Margin="5,0,5,5" Cursor="Hand" Background="#CCFFFFFF"
+                        <Button Name="CloseSysBtn" Content="退出系统" Foreground="Red" Grid.Row="1" VerticalAlignment="Bottom" Margin="5,0,5,5" Cursor="Hand" Background="#CCFFFFFF"
                                 Click="CloseSysBtn_Click"/>
                     </Grid>
                 </Border>

@@ -52,6 +52,35 @@ namespace Map.NxApp.Common.Core
         /// 查询结果列表
         /// </summary>
         public ObservableCollection<QueryRecordVO> recordList = new ObservableCollection<QueryRecordVO>();
+
+        /// <summary>
+        /// 管理员
+        /// </summary>
+        public UserVO managerUser = new UserVO();
+        /// <summary>
+        /// 普通用户
+        /// </summary>
+        public UserVO normalUser = new UserVO();
+        #endregion
+
+        #region 系统全局方法
+        /// <summary>
+        /// 初始化系统用户
+        /// </summary>
+        public void initSystemUser()
+        {
+            //管理员信息
+            this.managerUser.UserName = "管理员";
+            this.managerUser.UserRole = "系统管理员";
+            this.managerUser.UserId = "admin";
+            this.managerUser.PassWord = "admin2016";
+
+            //普通用户信息
+            this.normalUser.UserName = "操作员";
+            this.normalUser.UserRole = "系统操作员";
+            this.normalUser.UserId =  "normal";
+            this.normalUser.PassWord = "normal2016";
+        }
         #endregion
     }
 }

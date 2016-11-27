@@ -65,12 +65,12 @@ namespace Map.NxApp
             else
             {
                 GeoStyle sty2D = new GeoStyle();
-                sty2D.MarkerSize = new Size2D(6, 6);
+                sty2D.MarkerSize = new Size2D(4, 4);
                 sty2D.MarkerSymbolID = 1;
                 normalStyle = sty2D;
 
                 GeoStyle sty2DHigh = new GeoStyle();
-                sty2DHigh.MarkerSize = new Size2D(6, 6);
+                sty2DHigh.MarkerSize = new Size2D(4, 4);
                 sty2DHigh.MarkerSymbolID = 2;
                 highLightStyle = sty2DHigh;
             }
@@ -93,6 +93,7 @@ namespace Map.NxApp
         {
             //系统名称
             this.SystemTitleId.Text = ConfigurationManager.AppSettings.Get(systemTitle);
+            this.LoginTitleId.Text = ConfigurationManager.AppSettings.Get(systemTitle);
 
             this.LayerManagerPanelID.Height = this.Height - 100;
 
@@ -312,9 +313,7 @@ namespace Map.NxApp
 
         private void CloseSysBtn_Click(object sender, RoutedEventArgs e)
         {
-            //SmObjectLocator.getInstance().MapObject.Map.Close();
             SmObjectLocator.getInstance().MapObject.Dispose();
-            //SmObjectLocator.getInstance().WkSpaceObject.Close();
             SmObjectLocator.getInstance().WkSpaceObject.Dispose();
             Application.Current.Shutdown(-1);
         }
@@ -328,18 +327,12 @@ namespace Map.NxApp
             if (isLogined)
             {
                 //已登录
-                this.LogInedPanelFactor.Height = new GridLength(1, GridUnitType.Star);
-                this.LogInPanelFactor.Height = new GridLength(0);
-                this.LogInedPanelID.Visibility = Visibility.Visible;
-                this.LogInPanelID.Visibility = Visibility.Collapsed;
+                this.LoginPoupuPanelId.Visibility = Visibility.Collapsed;
             }
             else
             {
                 //待登录
-                this.LogInedPanelFactor.Height = new GridLength(0);
-                this.LogInPanelFactor.Height = new GridLength(1, GridUnitType.Star);
-                this.LogInedPanelID.Visibility = Visibility.Collapsed;
-                this.LogInPanelID.Visibility = Visibility.Visible;
+                this.LoginPoupuPanelId.Visibility = Visibility.Visible;
             }
         }
 
@@ -350,7 +343,42 @@ namespace Map.NxApp
         /// <param name="e"></param>
         private void LogInBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.switchLoginPanel(true);
+            if (this.LoginPoupuPanelId.Visibility == Visibility.Visible)
+            {
+                this.loginTipInfoId.Text = "";
+                string userId = this.userNameId.Text.ToString().Trim();
+                string pwd = this.userPwdId.Password.ToString().Trim();
+                if (userId != "" || pwd != "")
+                {
+                    //系统管理员
+                    if (userId == SysModelLocator.getInstance().managerUser.UserId
+                        && pwd == SysModelLocator.getInstance().managerUser.PassWord)
+                    {
+                        //启用要素查询功能
+                        this.queryFeatureCenterID.Visibility = Visibility.Visible;
+
+                        this.userNameInfoId.Text = SysModelLocator.getInstance().managerUser.UserName;
+                        this.userRoleInfoId.Text = SysModelLocator.getInstance().managerUser.UserRole;
+                        this.loginDateInfoId.Text = DateTime.Now.ToShortDateString();
+                        this.switchLoginPanel(true);
+                    }
+                    else if (userId == SysModelLocator.getInstance().normalUser.UserId
+                        && pwd == SysModelLocator.getInstance().normalUser.PassWord)
+                    {
+                        //关闭要素查询功能
+                        this.queryFeatureCenterID.Visibility = Visibility.Collapsed;
+
+                        this.userNameInfoId.Text = SysModelLocator.getInstance().normalUser.UserName;
+                        this.userRoleInfoId.Text = SysModelLocator.getInstance().normalUser.UserRole;
+                        this.loginDateInfoId.Text = DateTime.Now.ToShortDateString();
+                        this.switchLoginPanel(true);
+                    }
+                    else
+                    {
+                        this.loginTipInfoId.Text = "用户或密码错误，请重新输入!";
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -360,6 +388,8 @@ namespace Map.NxApp
         /// <param name="e"></param>
         private void LogOutBtn_Click(object sender, RoutedEventArgs e)
         {
+            this.ClearQueryResult();
+            this.resetUserInfo();
             this.switchLoginPanel(false);
         }
 
@@ -717,6 +747,21 @@ namespace Map.NxApp
         }
 
         /// <summary>
+        /// 重置系统用户信息
+        /// </summary>
+        private void resetUserInfo()
+        {
+            this.loginTipInfoId.Text = "";
+            this.userNameInfoId.Text = "";
+            this.userRoleInfoId.Text = "";
+            this.userNameId.Text = "";
+            this.userPwdId.Password = "";
+            this.loginDateInfoId.Text = "";
+
+            this.UeserCenterPanelID.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 清除查询结果
         /// </summary>
         private void ClearQueryResult()
@@ -726,6 +771,8 @@ namespace Map.NxApp
             //清空结果数据
             SmObjectLocator.getInstance().MapObject.Map.TrackingLayer.Clear();
             SmObjectLocator.getInstance().MapObject.Map.Refresh();
+
+            
 
             this.QueryResultListBoxId.ItemsSource = null;
             this.queryInfoId.Text = "默认查询选定类型的全部要素";
